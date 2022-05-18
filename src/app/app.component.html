@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <form #f="ngForm" (ngSubmit)="onSubmit()">
-        <div id="user-data">
+        <div #userData='ngModelGroup' id="user-data" ngModelGroup="userData">
           <div class="form-group">
             <label for="username">Username</label>
             <input
@@ -13,7 +13,12 @@
 
             >
           </div>
-          <button class="btn btn-default" type="button">Suggest an Username</button>
+          <button
+            (click)="suggestUserName()"
+            class="btn btn-default"
+            type="button"
+          >Suggest an Username
+          </button>
           <div class="form-group">
             <label for="email">Mail</label>
             <input #email="ngModel"
@@ -28,6 +33,7 @@
           </div>
 
         </div>
+        <p *ngIf="!userData.valid && userData.touched">User data is invalid </p>
         <div class="form-group">
           <label for="secret">Secret Questions</label>
           <select [ngModel]="defaultQuestion" class="form-control"
@@ -44,6 +50,12 @@
           </textarea>
         </div>
         <p>Youre Reply: {{ answer }}</p>
+        <div *ngFor="let gender of genders" class="radio">
+          <label>
+            <input [value]="gender" id="" name="gender" ngModel required type="radio">
+            {{gender}}
+          </label>
+        </div>
         <button
           [disabled]="!f.valid"
           class="btn btn-primary"
@@ -52,5 +64,14 @@
         </button>
       </form>
     </div>
+  </div>
+  <hr>
+  <div *ngIf="submitted" class="row col-xs-12">
+    <h3>your data</h3>
+    <p>UserName: {{user.username}} </p>
+    <p>Mail: {{user.email}}</p>
+    <p>Secret Question: {{user.secretQuestion}}</p>
+    <p>Answer: {{user.answer}}</p>
+    <p>Gender:  {{user.gender}}</p>
   </div>
 </div>
